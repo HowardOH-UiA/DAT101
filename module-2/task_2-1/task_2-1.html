@@ -5,6 +5,19 @@
   <title>Submission 2.1</title>
 </head>
 <body>
+  <button onclick="fTest1()">
+    Part2
+  </button>
+    <button onclick="fTest2()">
+    Part3
+  </button>
+    <button onclick="fTest3()">
+    Part4
+  </button>
+    <button onclick="fTest4()">
+    Part5
+  </button>
+
 <script>
   /* write your code below this line  🙂 */
 
@@ -13,9 +26,9 @@
       HTML-dokumentet, slik som dette dokumentet. */
 
   /* Part 2 */
-      const cTest1 = 2;
-      let lTest1 = 2;
-      function fTest1 (cTest1, lTest1){
+      function fTest1 (){
+        const cTest1 = 2;
+        let lTest1 = 2;
         console.log(cTest1);
         console.log(lTest1);
         if (lTest1 + cTest1 == 4){
@@ -23,6 +36,46 @@
           return
         }
       }
+  /* Part 3 */
+      function fTest2(){
+        let lTest1 = "Røros"
+        let ltest2 = 15
+        let lTest3 = 3.7
+        let lTest4 = "30"
+        const cTest1 = [lTest1, ltest2, lTest3]
+        console.log(cTest1)
+        console.log(cTest1[2])
+        console.log(cTest1[1] + cTest1[2])
+
+        console.log(cTest1[1] + lTest4)
+        console.log(cTest1[1] + parseInt(lTest4))
+      }
+
+  /* Part 4 */
+      function fTest3(){
+        valuePI = "3.14";
+        let valuePI2 = 3.14;
+        console.log(valuePI, valuePI2)
+        console.log(valuePI*2, "test")
+        /* Without a let, const or var, the variable is implicive,
+        which means that it guesses what type it should be at any
+        given use case. No errors seen in code. */
+      }
+  /* Part 5 */
+      function fTest4(){
+        const cTest1 = "test"
+        console.log(cTest1)
+        cTest1 = "hei"
+        console.log(cTest1)
+        /*"Invalid assignment to const variable", since consts
+        can't be reassigned. */
+      }
+
+
+
+
+
+    
 
 
 
