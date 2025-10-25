@@ -12,31 +12,32 @@
     <ol>
       <li>Where should you use constants, and where should you use variables? Can they all be constants?</li>
       <p>
-				If you need to change a variable during the programs runtime, it cannot be a constant.
+				For values that need to be changed, they cannot be constant. If a value is not really meant to change, it is safer to keep as a constant.
 			</p>
       <li>How do parentheses affect the arithmetic outcome of an expression?</li>
       <p>
-				Like in math, parentheses can change the order of a calculation, which can lead to a desired result.
+				In math, values within a parenthesis must be solved first.
 			</p>
       <li>How do we limit floating-point numbers to a given number of decimals?</li>
       <p>
-				"ToString" can limit a variable to a certain amount of decimals.
+				The toFixed function can limit a decimal value to whatever number of decimals that are necessary.
 			</p>
       <li>How can we compare two floating-point values to see if they are equal (is 12.199999 the same as 12.2)?</li>
       <p>
-				An id/else function get compare which of the objects are bigger or if they are the same size.
+				Comparing the number with a number.epsilon function, we can reliably see whether they are equal or not. 
 			</p>
       <li>What do comparison operators return, and how can we check if they are FALSE or TRUE?</li>
       <p>
-				It returns a boolean, which can be checked in an if statement, or in the console.
+				They return a Boolean value, and if the operator is “correct” it returns a true value. An if-statement that does something if the comparison operator is true would tell you whether the operator is right.
 			</p>
       <li>How does the Math.random() function work, and what can it be used for?</li>
       <p>
-				If you need something to be as close to random as possible. It always returns a number between 1 and 0.
+				It gives a random value between a set range. Which is useful whenever something needs to be random.
 			</p>
       <li>What is modulus (%), and when do we need this operator in mathematical operations?</li>
       <p>
-				It divides to values and returns the "extra" that could not be divided.
+				The modulus gives what remains after a division is done. Example: 10/3 doesn’t work. 9/3 works. 1 remains and is the modulus. It is necessary when you need to know what remains after an equal division.
+
 			</p>
     </ol>
 		<script type="module" src="./task_2-2.mjs" defer></script>
