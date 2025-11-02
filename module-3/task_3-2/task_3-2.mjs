@@ -25,44 +25,60 @@ printOut("--- Part 2 -----------------------------------------------------------
 let p2rightNumber = 34
 let p2machineGuess = 0
 let p2guessAmount = 0
-const p2guessTimeStart = performance.now();
+
 
 while (p2rightNumber !== p2machineGuess) {
     p2machineGuess = (Math.floor(Math.random() * 1000000)) + 1
     p2guessAmount++;
 }
 
-const p2guessTimeEnd = performance.now()
-let p2GuessTimeTotal = p2guessTimeEnd - p2guessTimeStart
-
 printOut("The number was: " + p2rightNumber);
 printOut("It took " + p2guessAmount + " guesses.");
-printOut("That means " + p2guessTimeEnd + " milliseconds")
+
+printOut(newLine);
+
+printOut("--- Part 3 ----------------------------------------------------------------------------------------------");
+/* Put your code below here!*/
+let p3rightNumber = 34
+let p3machineGuess = 0
+let p3guessAmount = 0
+const p3guessTimeStart = performance.now();
+
+while (p3rightNumber !== p3machineGuess) {
+    p3machineGuess = (Math.floor(Math.random() * 1000000)) + 1
+    p3guessAmount++;
+}
+
+const p3guessTimeEnd = performance.now()
+let p3GuessTimeTotal = p3guessTimeEnd - p3guessTimeStart
+
+printOut("The number was: " + p3rightNumber);
+printOut("It took " + p3guessAmount + " guesses.");
+printOut("That means " + p3GuessTimeTotal + " milliseconds")
 
 printOut(newLine);
 
 printOut("--- Part 4 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
- let p4checker = 2
- let p4primes = ""
+let p4primes = "";
 
+for (let p4checker = 2; p4checker <= 200; p4checker++) { 
+  let p4number = 2;
+  let p4isPrime = true;
 
- while (p4checker <= 200) {
-    let skib = true
-    for (let p4loopy = 2; p4loopy <= p4checker; p4loopy++) {
-        if (p4checker % p4loopy === 0) {
-            skib = false
-            break;
-        }
-        p4checker++
+  while (p4number * p4number < p4checker) { 
+    if (p4checker % p4number === 0) {
+      p4isPrime = false;
+      break;
     }
-    if (skib) {
-        p4primes += p4checker + " "
+    p4number++;
+  }
+
+  if (p4isPrime) {
+    p4primes += p4checker + " ";
     }
-    }
-    
-    
- 
+}
+
 
 printOut(p4primes);
 printOut(newLine);
@@ -70,12 +86,30 @@ printOut(newLine);
 printOut("--- Part 5 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
 
-printOut("Replace this with you answer!");
+for (let r = 1; r <= 7; r++) {
+    let p5row = ""
+    for (let k = 1; k <= 9; k++)  {
+        p5row += "K" + k + "R" + r + " "
+    }
+    printOut(p5row)
+}
+
 printOut(newLine);
 
 printOut("--- Part 6 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-printOut("Replace this with you answer!");
+const p6score1 = (Math.floor(Math.random() * 236) + 1)
+const p6score2 = (Math.floor(Math.random() * 236) + 1)
+const p6score3 = (Math.floor(Math.random() * 236) + 1)
+const p6score4 = (Math.floor(Math.random() * 236) + 1)
+const p6score5 = (Math.floor(Math.random() * 236) + 1)
+
+
+
+
+
+printOut(p6grade1);
+printOut(p6grade2);
 printOut(newLine);
 
 printOut("--- Part 7 ----------------------------------------------------------------------------------------------");
@@ -98,3 +132,4 @@ printOut("--- Part 10 ----------------------------------------------------------
 /* Put your code below here!*/
 printOut("Replace this with you answer!");
 printOut(newLine);
+
