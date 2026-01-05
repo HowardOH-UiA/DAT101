@@ -98,38 +98,76 @@ printOut(newLine);
 
 printOut("--- Part 6 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-const p6score1 = (Math.floor(Math.random() * 236) + 1)
-const p6score2 = (Math.floor(Math.random() * 236) + 1)
-const p6score3 = (Math.floor(Math.random() * 236) + 1)
-const p6score4 = (Math.floor(Math.random() * 236) + 1)
-const p6score5 = (Math.floor(Math.random() * 236) + 1)
+for (let g = 1 ; g<=5; g++) {
+    let p6totalScore = Math.floor(Math.random() * 236) + 1;
+    let p6scorePercentage = (p6totalScore/236) * 100
 
+    if (p6scorePercentage >= 89) {
+        printOut("A: " + p6scorePercentage.toFixed(1) + " %")
+    }
+    else if (p6scorePercentage >= 77) {
+        printOut("B: " + p6scorePercentage.toFixed(1) + " %")
+    }
+    else if (p6scorePercentage >= 65) {
+        printOut("C: " + p6scorePercentage.toFixed(1) + " %")
+    }
+    else if (p6scorePercentage >= 53) {
+        printOut("D: " + p6scorePercentage.toFixed(1) + " %")
+    }
+    else if (p6scorePercentage >= 41) {
+        printOut("E: " + p6scorePercentage.toFixed(1) + " %")
+    }
+    else {
+        printOut("F: " + p6scorePercentage.toFixed(1) + " %")
+    }
+}
 
-
-
-
-printOut(p6grade1);
-printOut(p6grade2);
 printOut(newLine);
 
 printOut("--- Part 7 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
 printOut("Replace this with you answer!");
-printOut(newLine);
+let p7throwCounter = 0;
+let p7straightCheck = false;
+let p7houseCheck = false;
 
-printOut("--- Part 8 ----------------------------------------------------------------------------------------------");
-/* Put your code below here!*/
-printOut("Replace this with you answer!");
-printOut(newLine);
+while (p7straightCheck == 0 && p7houseCheck == 0) {
+    p7throwCounter++;
+    let p7dice1 = Math.floor(Math.random() * 6) + 1;
+    let p7dice2 = Math.floor(Math.random() * 6) + 1;
+    let p7dice3 = Math.floor(Math.random() * 6) + 1;
+    let p7dice4 = Math.floor(Math.random() * 6) + 1;
+    let p7dice5 = Math.floor(Math.random() * 6) + 1;
+    let p7dice6 = Math.floor(Math.random() * 6) + 1;
+    const p7diceGroup = [p7dice1, p7dice2, p7dice3, p7dice4, p7dice5, p7dice6];
 
-printOut("--- Part 9 ----------------------------------------------------------------------------------------------");
-/* Put your code below here!*/
-printOut("Replace this with you answer!");
-printOut(newLine);
+    if (p7straightCheck == false) {
+        p7straight ();
+    } 
+    else if (p7houseCheck == false) {
+        p7house ();
+    } else; 
+    
+    /*Straight Check */
+    function p7straight () {
+        let p7straightDuplicateKiller = new Set(p7diceGroup).size === 6;
+            if (p7straightDuplicateKiller) {
+                p7straightCheck = true;
+                
+                printOut(p7diceGroup[0] + " " + p7diceGroup[1] + " " + p7diceGroup[2] + " " + p7diceGroup[3] + " " + p7diceGroup[4] + " " + p7diceGroup[5]);
+                printOut("Amount of throws for a full straight: " + p7throwCounter);
+            }
+    }
+    /*House Check */
+    function p7house () {
+        p7diceGroup.sort();
+        if (p7diceGroup[0] === p7diceGroup[1] && p7diceGroup[2] === p7diceGroup[3] && p7diceGroup[4] === p7diceGroup[5]) {
+            p7houseCheck = true;
 
-/* Task 10*/
-printOut("--- Part 10 ---------------------------------------------------------------------------------------------");
-/* Put your code below here!*/
-printOut("Replace this with you answer!");
-printOut(newLine);
+            printOut(p7diceGroup[0] + " " + p7diceGroup[1] + " " + p7diceGroup[2] + " " + p7diceGroup[3] + " " + p7diceGroup[4] + " " + p7diceGroup[5]);
+            printOut("Amount of throws for a full house: " + p7throwCounter);
+        }
+    }
+}
 
+printOut(newLine);
