@@ -126,12 +126,12 @@ printOut(newLine);
 
 printOut("--- Part 7 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-printOut("Replace this with you answer!");
 let p7throwCounter = 0;
-let p7straightCheck = false;
-let p7houseCheck = false;
+let p7masterSwitch = 0;
+let p7straightCheck = false; let p7houseCheck = false; let p7towerCheck = false; let p7yahtzeeCheck = false;
 
-while (p7straightCheck == 0 && p7houseCheck == 0) {
+
+while (p7masterSwitch != 4) {
     p7throwCounter++;
     let p7dice1 = Math.floor(Math.random() * 6) + 1;
     let p7dice2 = Math.floor(Math.random() * 6) + 1;
@@ -143,19 +143,35 @@ while (p7straightCheck == 0 && p7houseCheck == 0) {
 
     if (p7straightCheck == false) {
         p7straight ();
+        console.log("Straight");
     } 
-    else if (p7houseCheck == false) {
-        p7house ();
-    } else; 
     
+    if  (p7houseCheck == false) {
+        p7house ();
+        console.log("House");
+    }
+
+    if  (p7towerCheck == false) {
+        p7tower ();
+        console.log("Tower");
+    }
+
+    if  (p7yahtzeeCheck == false) {
+        p7yahtzee ();
+        console.log("Yahtzee");
+    }
+
     /*Straight Check */
     function p7straight () {
         let p7straightDuplicateKiller = new Set(p7diceGroup).size === 6;
             if (p7straightDuplicateKiller) {
                 p7straightCheck = true;
                 
+                printOut("");
                 printOut(p7diceGroup[0] + " " + p7diceGroup[1] + " " + p7diceGroup[2] + " " + p7diceGroup[3] + " " + p7diceGroup[4] + " " + p7diceGroup[5]);
                 printOut("Amount of throws for a full straight: " + p7throwCounter);
+
+                p7masterSwitch++
             }
     }
     /*House Check */
@@ -164,8 +180,51 @@ while (p7straightCheck == 0 && p7houseCheck == 0) {
         if (p7diceGroup[0] === p7diceGroup[1] && p7diceGroup[2] === p7diceGroup[3] && p7diceGroup[4] === p7diceGroup[5]) {
             p7houseCheck = true;
 
+            printOut("");
             printOut(p7diceGroup[0] + " " + p7diceGroup[1] + " " + p7diceGroup[2] + " " + p7diceGroup[3] + " " + p7diceGroup[4] + " " + p7diceGroup[5]);
             printOut("Amount of throws for a full house: " + p7throwCounter);
+
+            p7masterSwitch++;
+        }
+    }
+    /*Tower Check */
+    function p7tower () {
+        p7diceGroup.sort();
+        let p7towerDuplicateKiller = new Set(p7diceGroup).size === 2;
+        if (p7towerDuplicateKiller) {
+            if (p7diceGroup[0] == p7diceGroup[1] && p7diceGroup[5] == p7diceGroup[4]) {
+                if (p7diceGroup[0] === p7diceGroup[1] && p7diceGroup[2] === p7diceGroup[3] && p7diceGroup[4] === p7diceGroup[5] && p7diceGroup[1] === p7diceGroup[2] && p7diceGroup[0] != p7diceGroup[5]) {
+                    p7towerCheck = true;
+                    
+                    printOut("");
+                    printOut(p7diceGroup[0] + " " + p7diceGroup[1] + " " + p7diceGroup[2] + " " + p7diceGroup[3] + " " + p7diceGroup[4] + " " + p7diceGroup[5]);
+                    printOut("Amount of throws for a tower: " + p7throwCounter);
+
+                    p7masterSwitch++; 
+                }
+                else if (p7diceGroup[0] === p7diceGroup[1] && p7diceGroup[2] === p7diceGroup[3] && p7diceGroup[4] === p7diceGroup[5] && p7diceGroup[3] === p7diceGroup[4] && p7diceGroup[0] != p7diceGroup[5]) {
+                    p7towerCheck = true;
+                    
+                    printOut("");
+                    printOut(p7diceGroup[0] + " " + p7diceGroup[1] + " " + p7diceGroup[2] + " " + p7diceGroup[3] + " " + p7diceGroup[4] + " " + p7diceGroup[5]);
+                    printOut("Amount of throws for a tower: " + p7throwCounter);
+
+                    p7masterSwitch++; 
+                }  
+            }
+        }
+    }
+    /*Yahtzee Check */
+    function p7yahtzee () {
+        let p7yahtzeeDuplicateKiller = new Set(p7diceGroup).size === 1;
+        if (p7yahtzeeDuplicateKiller) {
+            p7yahtzeeCheck = true;
+            
+            printOut("");
+            printOut(p7diceGroup[0] + " " + p7diceGroup[1] + " " + p7diceGroup[2] + " " + p7diceGroup[3] + " " + p7diceGroup[4] + " " + p7diceGroup[5]);
+            printOut("Amount of throws for a Yahtzee!: " + p7throwCounter);
+
+            p7masterSwitch++
         }
     }
 }
