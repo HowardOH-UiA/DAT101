@@ -115,26 +115,121 @@ printOut(newLine);
 
 printOut("--- Part 6 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-printOut("Replace this with you answer!");
+function p6salesTaxKiller(p6amount, p6taxGroup) {
+    let p6taxRate = 25;
+    switch (p6taxGroup) {
+        case "Normal": 
+            printOut(`Amount before tax: ${p6amount}kr | Tax Group: ${p6taxGroup} | Amount after tax: ${(100 * p6amount) / (p6taxRate + 100)}kr`);
+            break;
+        case "Food": 
+            p6taxRate = 15;
+            printOut(`Amount before tax: ${p6amount}kr | Tax Group: ${p6taxGroup} | Amount after tax: ${(100 * p6amount) / (p6taxRate + 100)}kr`);
+            break;
+        case "Hotel", "Transport", "Cinema":
+            p6taxRate = 10;
+            printOut(`Amount before tax: ${p6amount}kr  | Tax Group: ${p6taxGroup} | Amount after tax: ${(100 * p6amount) / (p6taxRate + 100)}kr`);
+            break;
+        default: 
+            printOut("Unknown VAT group!");
+    }           
+}
+
+p6salesTaxKiller(500, "Normal"); 
+p6salesTaxKiller(1498, "Food"); 
+p6salesTaxKiller(180, "Cinema"); 
+p6salesTaxKiller(1000000, "Trolls"); 
+
 printOut(newLine);
 
 printOut("--- Part 7 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-printOut("Replace this with you answer!");
+function p7speedKing(p7speed, p7distance, p7time) {
+    if (p7speed == null && p7time != null && p7distance != null) {
+        p7speed = p7distance / p7time;
+        printOut("Speed = Distance / Time");
+    } else if (p7time == null && p7speed != null && p7distance != null) {
+        p7time = p7distance / p7speed;
+        printOut("Time = Distance / Speed");
+    } else if (p7distance == null && p7speed != null && p7time != null) {
+        p7distance = p7speed * p7time;
+        printOut("Distance = Speed * Time");
+    } else {
+        printOut(NaN);
+        printOut(newLine);
+        return;
+    }
+    printOut(`Speed: ${p7speed} m/s | Distance: ${p7distance} m | Time: ${p7time} s`);
+    printOut(newLine);
+}
+
+p7speedKing(10, null, 20);
+p7speedKing(null, null, 20);
+p7speedKing(160, 423, null);
+p7speedKing(null, 32, 231);
+
 printOut(newLine);
 
 printOut("--- Part 8 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-printOut("Replace this with you answer!");
+function p8stringMaster(p8mainString, p8MaxSize, p8character, p8beforeAfter) {
+    //True = before, False = after
+    while (p8mainString.length < p8MaxSize) {
+        if (p8beforeAfter) {
+            p8mainString = p8character + p8mainString;
+        } else {
+            p8mainString += p8character;
+        }
+    }
+    printOut("String: " + p8mainString);
+}
+
+p8stringMaster("Greetings", 10, "a", true);
+p8stringMaster("Tromsø", 16, "7", false);
+p8stringMaster("Hamburger", 70, "r", true);
+
 printOut(newLine);
 
 printOut("--- Part 9 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-printOut("Replace this with you answer!");
+function p9mathWizz() {
+    let p9number = 1
+    for (let p9counter = 1; p9counter <= 200; p9counter++) {
+        let p9left = 0; let p9right = 0;
+        for (let p9l = 0; p9l < p9counter + 1; p9l++) {
+            p9left += p9number++;
+        }
+        for (let p9l = 0; p9l < p9counter; p9l++) {
+            p9left += p9number++;
+        }
+        if (p9left === p9right) {
+            printOut(`Error at line: ${p9counter}: ${p9left} does not equal ${p9right}`);
+        }
+    }
+    printOut("Maths fun!");
+}
+
+p9mathWizz();
+
 printOut(newLine);
 
 /* Task 10*/
 printOut("--- Part 10 ---------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-printOut("Replace this with you answer!");
+function p10mrRecursive(p10number) {
+    printOut(`Original Number: ${p10number}`);
+    let p10result = p10number;
+    for (let p10counter = p10number; p10counter > 1; p10counter--) {
+        p10result *= (p10counter - 1);
+        console.log(p10result);
+        console.log(p10counter);
+    }
+    printOut(`Factorial: ${p10result}`);
+    printOut(newLine);
+}
+
+p10mrRecursive(5);
+p10mrRecursive(13);
+p10mrRecursive(415);
+p10mrRecursive(4);
+
 printOut(newLine);
