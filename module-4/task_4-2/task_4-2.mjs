@@ -26,8 +26,8 @@ let p2numberArray = [
 ]
 
 for (let p2x = 0; p2x <= p2numberArray.length; p2x++) {
-    let p2printer = p2numberArray[p2x]
-    printOut(p1numberArray.join("")[p1x])
+    p2numberArray.join(";")
+    printOut(p2numberArray[p2x])
 
 
 }printOut(newLine);
