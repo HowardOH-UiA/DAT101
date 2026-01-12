@@ -18,38 +18,84 @@ printOut(newLine);
 
 printOut("--- Part 2 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-let p2numberArray = [
-    1, 2, 3, 4, 5,
-    6, 7, 8, 9 ,10, 
-    11, 12, 13, 14, 15, 
-    16 ,17 ,18, 19, 20
-]
+printOut(p1numberArray.join(";"))
 
-for (let p2x = 0; p2x <= p2numberArray.length; p2x++) {
-    p2numberArray.join(";")
-    printOut(p2numberArray[p2x])
-
-
-}printOut(newLine);
+printOut(newLine);
 
 printOut("--- Part 3 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-printOut("Replace this with you answer!");
+const p3string = "Hei på deg, hvordan har du det?"
+const p3array = p3string.split(" ")
+let p3printer = ""
+
+for (let p3x = 0; p3x <p3array.length; p3x++) {
+    const p3wordStorage = p3array[p3x]
+    p3printer += `ID: ${p3x + 1} = ${p3wordStorage} ${newLine}`
+}
+
+printOut(p3printer)
+
 printOut(newLine);
 
 printOut("--- Part 4 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-printOut("Replace this with you answer!");
+const p4nameArray = ["Anne", "Inger", "Kari", "Marit", "Ingrid", "Liv", "Eva", "Berit", "Astrid", "Bjørg", "Hilde", "Anna", "Solveig", "Marianne", "Randi", "Ida", "Nina", "Maria", "Elisabeth", "Kristin"]
+
+function p4nameKiller(p4chosenArray, p4textTBK) {
+    if (p4chosenArray.includes(p4textTBK)) {
+        const p4nameChecker = p4chosenArray.indexOf(p4textTBK)
+        p4chosenArray.splice(p4nameChecker, 1)
+        printOut(p4chosenArray.join(" | "))
+        printOut(`${p4textTBK} was removed from the list.`)
+    } else {
+        printOut(`${p4textTBK} is not found within array.`)
+    }
+}
+
+p4nameKiller(p4nameArray, "Kari")
+
 printOut(newLine);
 
 printOut("--- Part 5 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-printOut("Replace this with you answer!");
+const p5nameArrayBoys = ["Jakob", "Lucas", "Emil", "Oskar", "Oliver", "William", "Filip", "Noah", "Elias", "Isak", "Henrik", "Aksel", "Kasper", "Mathias", "Jonas", "Tobias", "Liam", "Håkon", "Theodor", "Magnus"]
+//Added a copy of girl-array because of deleted name in part 4 :)
+const p5nameArrayGirls = ["Anne", "Inger", "Kari", "Marit", "Ingrid", "Liv", "Eva", "Berit", "Astrid", "Bjørg", "Hilde", "Anna", "Solveig", "Marianne", "Randi", "Ida", "Nina", "Maria", "Elisabeth", "Kristin"]
+
+const p5masterArray = p5nameArrayBoys.concat(p5nameArrayGirls)
+printOut(p5masterArray.join(" -- "))
+
 printOut(newLine);
 
 printOut("--- Part 6 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-printOut("Replace this with you answer!");
+class p6TBook {
+    #Title
+    #Author
+    #ISBN
+
+    constructor(aTitle, aAuthor, aISBN) {
+        this.#Title = aTitle
+        this.#Author = aAuthor
+        this.#ISBN = aISBN
+    }
+
+    toString() {
+        return `Title: ${this.#Title}, Author: ${this.#Author}, ISBN: ${this.#ISBN}`
+    }
+}
+
+const p6book1 = new p6TBook("Pride and Prejudice", "Jane Austen", "23849832747394237")
+const p6book2 = new p6TBook("1984", "George Orwell", "1209371794733545")
+const p6book3 = new p6TBook("Shadow of The Sith", "Adam Christopher", "72387912349719234")
+
+const p6bookList = [p6book1, p6book2, p6book3]
+
+for (const p6printMaster of p6bookList) {
+    printOut(p6printMaster.toString())
+    printOut(newLine)
+}
+
 printOut(newLine);
 
 printOut("--- Part 7 ----------------------------------------------------------------------------------------------");
