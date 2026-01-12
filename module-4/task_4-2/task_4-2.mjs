@@ -3,13 +3,34 @@ import { printOut, newLine } from "../../common/script/utils.mjs";
 
 printOut("--- Part 1 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-printOut("Replace this with you answer!");
+const p1numberArray = [
+    1, 2, 3, 4, 5,
+    6, 7, 8, 9 ,10, 
+    11, 12, 13, 14, 15, 
+    16 ,17 ,18, 19, 20
+]
+
+for (let p1x = 0; p1x <= p1numberArray.length; p1x++) {
+    printOut(p1numberArray[p1x])
+}
+
 printOut(newLine);
 
 printOut("--- Part 2 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-printOut("Replace this with you answer!");
-printOut(newLine);
+let p2numberArray = [
+    1, 2, 3, 4, 5,
+    6, 7, 8, 9 ,10, 
+    11, 12, 13, 14, 15, 
+    16 ,17 ,18, 19, 20
+]
+
+for (let p2x = 0; p2x <= p2numberArray.length; p2x++) {
+    let p2printer = p2numberArray[p2x]
+    printOut(p1numberArray.join("")[p1x])
+
+
+}printOut(newLine);
 
 printOut("--- Part 3 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
