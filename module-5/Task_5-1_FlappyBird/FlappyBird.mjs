@@ -2,6 +2,7 @@
 // Import necessary modules
 import { TSpriteCanvas } from "libSprite";
 import { TBackground } from "./background.js";
+import { THero } from "./hero.js";
 
 //--------------- Objects and Variables ----------------------------------//
 const chkMuteSound = document.getElementById("chkMuteSound");
@@ -29,11 +30,17 @@ const SpriteInfoList = {
 
 const EGameStatus = { idle: 0 };
 const background = new TBackground(spcvs, SpriteInfoList);
+const hero = new THero(spcvs, SpriteInfoList.hero1);
 
 
 //--------------- Functions ----------------------------------------------//
+function animateGame() {
+  hero.animate(); 
+}
+
 function drawGame(){
   background.draw();
+  hero.draw()
 }
 
 function loadGame() {
@@ -45,12 +52,15 @@ function loadGame() {
   // Overload the spcvs draw function here!
   spcvs.onDraw = drawGame;
 
+  setInterval(animateGame, 10)
+
 } // end of loadGame
 
 
 function onKeyDown(aEvent) {
   switch (aEvent.code) {
     case "Space":
+      hero.flap()
       console.log("Space key pressed, flap the hero!");
       break;
   }
