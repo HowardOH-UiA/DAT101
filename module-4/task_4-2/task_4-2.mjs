@@ -100,12 +100,39 @@ printOut(newLine);
 
 printOut("--- Part 7 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-printOut("Replace this with you answer!");
+const p7EWeekDays = {
+    WeekDay1: { value: 0x01, name: "Mandag" },
+    WeekDay2: { value: 0x02, name: "Tirsdag" },
+    WeekDay3: { value: 0x04, name: "Onsdag" },
+    WeekDay4: { value: 0x08, name: "Torsdag" },
+    WeekDay5: { value: 0x10, name: "Fredag" },
+    WeekDay6: { value: 0x20, name: "Lørdag" },
+    WeekDay7: { value: 0x40, name: "Søndag" },
+    Workdays: {value: 0x01 + 0x02 + 0x04 + 0x08 + 0x10, name: "Arbeidsdager"},
+    Weekends: {value: 0x20 + 0x40, name: "Helg"}
+};
+
+const p7keyMaster = Object.keys(p7EWeekDays)
+
+for (let p7keyCounter of p7keyMaster) {
+    const p7printer = p7EWeekDays[p7keyCounter]
+    printOut(`Key: ${p7keyCounter} Value: ${p7printer.value} Name: ${p7printer.name}`)
+    printOut(newLine)
+}
+
+
 printOut(newLine);
 
 printOut("--- Part 8 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-printOut("Replace this with you answer!");
+let p8numberArray =[]
+for (let p8x = 0; p8x < 20; p8x++ ) {
+    p8numberArray.push((Math.floor(Math.random() * 20) +1))
+}
+
+p8numberArray.sort((a, b) => a-b)
+printOut(p8numberArray)
+
 printOut(newLine);
 
 printOut("--- Part 9 ----------------------------------------------------------------------------------------------");

@@ -4,11 +4,13 @@ import { TSprite } from "libSprite";
 export class THero extends TSprite{
     #gravity;
     #speed;
+
     constructor (aSpcvs, aSPI){
         super(aSpcvs, aSPI, 200, 200)
         this.animationSpeed = 10
         this.#gravity = 9.81 / 100
         this.#speed = 0;
+        
     }
 
     animate() {
