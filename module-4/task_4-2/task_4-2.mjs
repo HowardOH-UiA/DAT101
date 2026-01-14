@@ -131,17 +131,82 @@ for (let p8x = 0; p8x < 20; p8x++ ) {
 }
 
 p8numberArray.sort((a, b) => a-b)
-printOut(p8numberArray)
+printOut(p8numberArray.join("--"))
 
 printOut(newLine);
 
 printOut("--- Part 9 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-printOut("Replace this with you answer!");
+const p9frequencyCounter = {}
+let p9printer = ""
+
+//Simply counting the frequencies, not sorting.
+for(let p9x = 0; p9x < p8numberArray.length; p9x++) {
+    if (p9frequencyCounter[p8numberArray[p9x]]) {
+        p9frequencyCounter[p8numberArray[p9x]] += 1
+    } else {
+        p9frequencyCounter[p8numberArray[p9x]] = 1
+    }
+}
+for (const p9selectedNumber in p9frequencyCounter) {
+    p9printer += `${p9selectedNumber} has a frequency of ${p9frequencyCounter[p9selectedNumber] + newLine}`
+}
+
+printOut(p9printer)
+p9printer = ""
+
+
+
+//Sorting the frequencies
+function p9fSort(a, b){
+  if(p9frequencyCounter[b] === p9frequencyCounter[a]){
+    return a - b;
+  }
+
+  return p9frequencyCounter[b] - p9frequencyCounter[a];
+}
+
+
+const p9keys = Object.keys(p9frequencyCounter);
+p9keys.sort(p9fSort);
+const p9frequencyValue = [];
+for(let p9y = 0; p9y < p9keys.length; p9y++){
+  const p9value = parseInt(p9keys[p9y]);
+  p9frequencyValue.push(p9value);
+}
+
+for(let p9z = 0; p9z < p9frequencyValue.length; p9z++){
+  const p9selectedNumber2 = p9frequencyValue[p9z];
+  p9printer += `${p9selectedNumber2} has a frequency of ${p9frequencyCounter[p9selectedNumber2] + newLine}`;
+}
+
+printOut(p9printer);
 printOut(newLine);
 
 /* Task 10*/
 printOut("--- Part 10 ---------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-printOut("Replace this with you answer!");
+const p10rows = 9;
+const p10columns = 5;
+const p10table = [];
+for(let p10x = 0; p10x < p10rows; p10x++){
+  const p10rowList = [];
+
+  for(let p10y = 0; p10y < p10columns; p10y++){
+    p10rowList.push(`Row ${p10x + 1}, Column ${p10y + 1}`);
+  }
+
+  p10table.push(p10rowList);
+}
+
+let p10printer = "";
+for(let p10z = 0; p10z < p10rows; p10z++){
+  for(let p10a = 0; p10a < p10columns; p10a++){
+    
+    p10printer += p10table[p10z][p10a] + " --- ";
+  }
+  p10printer += newLine;
+}
+printOut(p10printer);
+
 printOut(newLine);
