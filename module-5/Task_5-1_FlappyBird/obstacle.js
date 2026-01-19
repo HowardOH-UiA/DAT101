@@ -1,55 +1,63 @@
-"use strict"
-import {TSprite} from "libSprite"
+"use strict";
+import { TSprite } from "libSprite";
+import { hero, EGameStatus } from "./FlappyBird.mjs"
 
-const MinimumProtrusion = 30
-const EasyFlyerGap = 150
-const HardflyerGap = 100
+const EasyFlyerGap = 150;
+const HardFlyerGap = 100;
+const MinimumProtrusion = 30;
 
 
-export class TObstacle {
-    #spUp
-    #spDown
-    #obstacleSpacing = 425
-
-    constructor(aSpcvs, aSPI) {
-        const gap = Math.ceil(Math.randomt)
-
-        const w = aSpcvs.width + 55
-        const h = aSpcvs.height 
-        const randomPos = (Math.random()*300 + 100)
-
-        this.#spDown = new TSprite(aSpcvs, aSPI, w, randomPos )
-        this.#spDown.index = 2
-        this.#spUp = new TSprite (aSpcvs, aSPI, w, this.#spDown.y - this.#obstacleSpacing )
-        this.#spUp.index = 3
-
+export class TObstacle{
+  #spUp;
+  #spDown;
+  #spi;
+  constructor(aSpcvs, aSPI){
+    const x = 600;
+    this.#spi = aSPI;
+    // Generate random gap height, based on difficulty settings
+    const gap = Math.ceil(Math.random() * (EasyFlyerGap - HardFlyerGap) + HardFlyerGap);
+    const minTop = -this.#spi.height + MinimumProtrusion; // Minimum top position for upper obstacle
+    const maxTop = -MinimumProtrusion; // Maximum top position for upper obstacle
+    // Genrate random top position for upper obstacle
+    let top = Math.ceil(Math.random() * (maxTop - minTop) + minTop);
+    const minBottom = 400 - MinimumProtrusion; // Minimum bottom position for lower obstacle
+    let topWithGap = this.#spi.height + top + gap; // Initial position of bottom obstacle based on the height of the sprite, gap, and top 
+    if(topWithGap > minBottom){
+      // The top with gap is too low, adjust top and keep the gap constant
+      const adjustment = topWithGap - minBottom;
+      top -= adjustment;
+      topWithGap = this.#spi.height + top + gap; // Recalculate topWithGap after adjustment
     }
 
-    get x() {
-        return this.#spDown.x
+    this.#spDown = new TSprite(aSpcvs, aSPI, x, topWithGap);
+    this.#spDown.index = 2;
+    this.#spUp = new TSprite(aSpcvs, aSPI, x, top);
+    this.#spUp.index = 3;
+  }
+
+  // Properties
+  get x(){
+    return this.#spDown.x;
+  }
+
+  draw(){
+    this.#spDown.draw();
+    this.#spUp.draw();
+  }
+
+  
+  animate(){
+    this.#spDown.x--;
+    this.#spUp.x--;
+    const hasCollided = hero.hasCollided(this.#spDown) || hero.hasCollided(this.#spUp)
+
+    if (hasCollided) { 
+        console.log("d")
+        console.log(EGameStatus.state)
+        EGameStatus.state =EGameStatus.heroIsDead
+        hero.animationSpeed = 0
+        hero.flap()
     }
+  }
 
-    draw() {
-        this.#spDown.draw()
-        this.#spUp.draw()
-    }
-
-    animate() {
-        // const x = this.#spDown.x
-        // let randomPo s = (Math.random()*300 + 100)
-
-        // if (x<-55) {
-        //     this.#spDown.x = 555
-        //     this.#spDown.y = randomPos
-
-        //     this.#spUp.x = this.#spDown.x
-        //     this.#spUp.y = this.#spDown.y - this.#obstacleSpacing
-
-        // } else {
-            this.#spDown.x--
-            this.#spUp.x--
-            
-        // }
-
-    }
-}
+}// End of class TObstacle

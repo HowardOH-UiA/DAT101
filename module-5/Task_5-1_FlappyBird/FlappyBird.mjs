@@ -4,6 +4,7 @@ import { TSpriteCanvas } from "libSprite";
 import { TBackground } from "./background.js";
 import { THero } from "./hero.js";
 import { TObstacle } from "./obstacle.js";
+import { TBait } from "./bait.js"
 
 //--------------- Objects and Variables ----------------------------------//
 const chkMuteSound = document.getElementById("chkMuteSound");
@@ -29,14 +30,24 @@ const SpriteInfoList = {
   medal:        { x: 985 , y: 635 , width: 44   , height: 44  , count: 4  },
 };
 
-const EGameStatus = { idle: 0 };
+export const EGameStatus = { idle: 0, gaming: 1, heroIsDead: 2, gameOver: 3,
+  state: 1
+};
+
 const background = new TBackground(spcvs, SpriteInfoList);
-const hero = new THero(spcvs, SpriteInfoList.hero1);
+export const hero = new THero(spcvs, SpriteInfoList.hero1);
 // const obstacle = new TObstacle(spcvs, SpriteInfoList.obstacle)
 // const obstacle2 = new TObstacle(spcvs, SpriteInfoList.obstacle)
 const obstacles = []
+const baits = []
 
 //--------------- Functions ----------------------------------------------//
+function spawnBait() {
+  const bait = new TBait(spcvs, SpriteInfoList.food)
+  baits.push(bait)
+
+}
+
 function spawnObstacle() {
   const obstacle = new TObstacle(spcvs, SpriteInfoList.obstacle)
   obstacles.push(obstacle)
@@ -46,21 +57,29 @@ function spawnObstacle() {
 
 function animateGame() {
   hero.animate(); 
-  background.animate();
-  let deleteObstacle =false
-
-  for (let i = 0; i< obstacles.length; i++){
-    const obstacle = obstacles[i]
-    obstacle.animate()
-    obstacles.splice()
-    if (obstacle.x < -55  ) {
-      deleteObstacle = true
-    } 
-
+  for (let i = 0; i < baits.length; i++){
+    const bait = baits[i]
+    bait.animate()
   }
-  if (deleteObstacle) {
-    obstacles.splice(0, 1)
+  if (EGameStatus.state == EGameStatus.gaming) {
+    background.animate();
+    let deleteObstacle =false
 
+    for (let i = 0; i< obstacles.length; i++){
+      const obstacle = obstacles[i]
+      obstacle.animate()
+      obstacles.splice()
+      if (obstacle.x < -55  ) {
+        deleteObstacle = true
+      } 
+
+    }
+    if (deleteObstacle) {
+      obstacles.splice(0, 1)
+
+    }
+  }  else {
+    return
   }
   
   // obstacle2.animate()
@@ -68,14 +87,21 @@ function animateGame() {
 
 function drawGame(){
   background.drawBackground();
+  hero.draw()
+  for (let i = 0; i < baits.length; i++) {
+    const bait = baits[i]
+        bait.draw()  
+  }
+
   for (let i = 0; i< obstacles.length; i++){
     const obstacle = obstacles[i]
     obstacle.draw()
   }
   // obstacle2.draw()
   // obstacle2.
+
   background.drawGround()
-  hero.draw()
+  
 
 }
 
@@ -92,6 +118,7 @@ function loadGame() {
   // setTimeout(spawnObstacle, 1000)
   
   spawnObstacle()
+  setTimeout(spawnBait,1000)
 
 } // end of loadGame
 
@@ -99,7 +126,10 @@ function loadGame() {
 function onKeyDown(aEvent) {
   switch (aEvent.code) {
     case "Space":
-      hero.flap()
+      if (EGameStatus.state == EGameStatus.gaming) {
+        hero.flap()
+      }
+
       console.log("Space key pressed, flap the hero!");
       break;
   }
