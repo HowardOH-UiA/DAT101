@@ -31,7 +31,7 @@ const SpriteInfoList = {
   medal:        { x: 985 , y: 635 , width: 44   , height: 44  , count: 4  },
 };
 
-export const EGameStatus = { idle: 0, gaming: 1, heroIsDead: 2, gameOver: 3,
+export const EGameStatus = { idle: 0, countDown: 1, gaming: 2, heroIsDead: 3, gameOver: 4,
   state: 0
 };
 
@@ -40,7 +40,7 @@ export const hero = new THero(spcvs, SpriteInfoList.hero1);
 
 const obstacles = []
 const baits = []
-const menu = new TMenu(spcvs, SpriteInfoList)
+export const menu = new TMenu(spcvs, SpriteInfoList)
 
 //--------------- Functions ----------------------------------------------//
 export function startGame (){
@@ -70,15 +70,18 @@ function spawnObstacle() {
 
 function animateGame() {
   hero.animate(); 
+
   let eaten = -1
   for (let i = 0; i < baits.length; i++){
     const bait = baits[i]
     bait.animate()
+  
     if (bait.distanceTo(hero.center) < 20) {
       eaten = i
     }
   }
   if (eaten >= 0) {
+    hero.eat()
     console.log("Eaten")
     baits.splice(eaten, 1)
   }
