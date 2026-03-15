@@ -1,6 +1,6 @@
 "use strict"
 import{ TSprite, TSpriteButton, TSpriteNumber } from "libSprite"
-import { startGame } from "./FlappyBird.mjs"
+import { startGame, soundMuted } from "./FlappyBird.mjs"
 import { TSoundFile } from "libSound"
 
 const fnCountDown = "./Media/countDown.mp3"
@@ -42,8 +42,10 @@ export class TMenu {
             console.log(this.#spCountDown.value)
         } else {
             this.#spCountDown.visible = false
-            this.#sfRunning = new TSoundFile(fnRunning)
-            this.#sfRunning.play()
+            if (soundMuted === false) {
+                this.#sfRunning = new TSoundFile(fnRunning)
+                this.#sfRunning.play()
+            }
             this.#spHighScore.visible = true
             this.#spHighScore.alpha = 0.8
             startGame()
@@ -57,15 +59,19 @@ export class TMenu {
         this.#spCountDown.visible = true
         this.#spCountDown.value = 3
 
-        this.#sfCountDown = new TSoundFile(fnCountDown)
         setTimeout(this.countDown.bind(this), 1000)        
         console.log("ski")
-        this.#sfCountDown.play()
+
+        if (soundMuted === false) {
+            this.#sfCountDown = new TSoundFile(fnCountDown)
+            this.#sfCountDown.play()
+        }
     }
 
     stopSound() {
-        this.#sfRunning.stop()
-
+        if (soundMuted === false) {
+            this.#sfRunning.stop()
+        }
     }
 
     highScore(pAmount) {
