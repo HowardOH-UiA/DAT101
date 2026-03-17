@@ -1,6 +1,6 @@
 "use strict"
 import { TSprite } from "libSprite";
-import { EGameStatus, menu, soundMuted  } from "./FlappyBird.mjs";
+import { EGameStatus, menu, soundMuted, } from "./FlappyBird.mjs";
 import { TSineWave } from "lib2d"
 import { TSoundFile } from "libSound"
 
@@ -63,6 +63,7 @@ export class THero extends TSprite{
             } else {
                 this.animationSpeed = 0
                 EGameStatus.state = EGameStatus.gameOver
+                menu.showGameOver()
                 if (soundMuted === false) {
                     this.#sfGameOver = new TSoundFile(fnGameOver)
                     this.#sfGameOver.play()
@@ -80,11 +81,18 @@ export class THero extends TSprite{
             this.#sfHeroIsDead.play()
         }
         EGameStatus.state =EGameStatus.heroIsDead
+        menu.showGameOver()
+        
     }
 
     flap() {
         this.#speed = -1.6
         this.rotation = 0
+    }
+
+    restart() {
+        location.reload()
+        //Couldn't find a way to reset the game without reloading the page, so I went with this solution.
     }
 
 }

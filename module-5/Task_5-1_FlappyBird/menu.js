@@ -1,6 +1,6 @@
 "use strict"
 import{ TSprite, TSpriteButton, TSpriteNumber } from "libSprite"
-import { startGame, soundMuted } from "./FlappyBird.mjs"
+import { startGame, soundMuted, EGameStatus, hero } from "./FlappyBird.mjs"
 import { TSoundFile } from "libSound"
 
 const fnCountDown = "./Media/countDown.mp3"
@@ -14,6 +14,13 @@ export class TMenu {
     #spCountDown
     #sfCountDown
     #sfRunning
+
+    #spEndScreen
+    #spMedal
+
+    #spHighScoreShowcase
+    #spMasterScore
+
     constructor(aSpcvs, aSPI) {
         this.#spTitle = new TSprite(aSpcvs, aSPI.flappyBird, 200, 200)
         this.#spPlayBtn = new TSpriteButton(aSpcvs, aSPI.buttonPlay, 240, 300)  
@@ -25,6 +32,16 @@ export class TMenu {
 
         this.#sfCountDown = null
         this.#sfRunning = null
+
+        this.#spEndScreen = new TSprite(aSpcvs, aSPI.gameOver, 200, 100)
+        this.#spEndScreen.hidden = true
+        this.#spMedal = new TSprite(aSpcvs, aSPI.medal, 226, 143)
+        this.#spMedal.hidden = true
+
+        this.#spMasterScore = new TSpriteNumber(aSpcvs, aSPI.numberSmall, 386, 135)
+        this.#spMasterScore.visible = false
+        this.#spHighScoreShowcase = new TSpriteNumber(aSpcvs, aSPI.numberSmall, 385, 175)
+        this.#spHighScoreShowcase.visible = false
     }
 
     draw() {
@@ -32,7 +49,11 @@ export class TMenu {
         this.#spPlayBtn.draw()
         this.#spCountDown.draw()
         this.#spHighScore.draw()
-
+        this.#spEndScreen.draw()
+        this.#spMedal.draw()
+        this.#spMasterScore.draw()
+        this.#spHighScoreShowcase.draw()
+  
     }
 
     countDown(){
@@ -66,6 +87,10 @@ export class TMenu {
             this.#sfCountDown = new TSoundFile(fnCountDown)
             this.#sfCountDown.play()
         }
+
+        if (EGameStatus.state == EGameStatus.gameOver || EGameStatus.state == EGameStatus.heroIsDead) {
+            hero.restart()
+        }
     }
 
     stopSound() {
@@ -77,5 +102,33 @@ export class TMenu {
     highScore(pAmount) {
         this.#spHighScore.value += pAmount
     }
+
+    showGameOver() {
+        this.stopSound()
+        this.#spHighScore.hidden = true
+        this.#spEndScreen.hidden = false
+        this.#spPlayBtn.hidden = false
+
+        this.#spHighScoreShowcase.value = this.#spHighScore.value
+        if (this.#spHighScore.value >= 20 ) {
+            this.#spMedal.index = 1
+            console.log("gold")
+        } else  if (this.#spHighScore.value >= 10 ) {
+            this.#spMedal.index = 2
+            console.log("silver")
+        } else  if (this.#spHighScore.value >= 1 ) {
+            this.#spMedal.index = 3
+            console.log("bronze")
+        }
+        this.#spMedal.hidden = false
+
+        if (this.#spMasterScore.value < this.#spHighScore.value) {
+            this.#spMasterScore.value = this.#spHighScore.value
+        }
+        
+        this.#spMasterScore.visible = true
+        this.#spHighScoreShowcase.visible = true
+    }
+
 
 }
