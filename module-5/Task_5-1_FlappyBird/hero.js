@@ -1,6 +1,6 @@
 "use strict"
 import { TSprite } from "libSprite";
-import { EGameStatus, menu } from "./FlappyBird.mjs";
+import { EGameStatus, menu, soundMuted, } from "./FlappyBird.mjs";
 import { TSineWave } from "lib2d"
 import { TSoundFile } from "libSound"
 
@@ -31,13 +31,18 @@ export class THero extends TSprite{
     }
 
     eat() {
-        if (this.#sfFood === null) {
-            this.#sfFood = new TSoundFile(fnfood)
+        if (soundMuted === false) {
+            if (this.#sfFood === null) {
+                this.#sfFood = new TSoundFile(fnfood)
+                this.#sfFood.play()
+            } else {
+                this.#sfFood.stop()
+            }
             this.#sfFood.play()
-        } else {
-            this.#sfFood.stop()
+            }
+        else {
+            console.log(soundMuted)
         }
-        this.#sfFood.play()
 
         menu.highScore(3)
 
@@ -58,9 +63,12 @@ export class THero extends TSprite{
             } else {
                 this.animationSpeed = 0
                 EGameStatus.state = EGameStatus.gameOver
-                this.#sfGameOver = new TSoundFile(fnGameOver)
-                this.#sfGameOver.play()
-                menu.stopSound()
+                menu.showGameOver()
+                if (soundMuted === false) {
+                    this.#sfGameOver = new TSoundFile(fnGameOver)
+                    this.#sfGameOver.play()
+                    menu.stopSound()
+                }
             }
         } else if(EGameStatus.state === EGameStatus.idle) {
             this.y += this.#wave.value
@@ -68,14 +76,23 @@ export class THero extends TSprite{
     }
     
     dead() {
-        this.#sfHeroIsDead = new TSoundFile(fnHeroIsDead) 
-        this.#sfHeroIsDead.play()
+        if (soundMuted === false) {
+            this.#sfHeroIsDead = new TSoundFile(fnHeroIsDead) 
+            this.#sfHeroIsDead.play()
+        }
         EGameStatus.state =EGameStatus.heroIsDead
+        menu.showGameOver()
+        
     }
 
     flap() {
         this.#speed = -1.6
         this.rotation = 0
+    }
+
+    restart() {
+        location.reload()
+        //Couldn't find a way to reset the game without reloading the page, so I went with this solution.
     }
 
 }

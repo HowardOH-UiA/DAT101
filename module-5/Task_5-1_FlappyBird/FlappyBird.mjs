@@ -37,6 +37,8 @@ export const EGameStatus = { idle: 0, countDown: 1, gaming: 2, heroIsDead: 3, ga
 
 const background = new TBackground(spcvs, SpriteInfoList);
 export const hero = new THero(spcvs, SpriteInfoList.hero1);
+export let soundMuted = false
+export let dayNight = 1
 
 const obstacles = []
 const baits = []
@@ -163,13 +165,18 @@ function onKeyDown(aEvent) {
 
 function setSoundOnOff(){
   // Mute or unmute the game sound based on checkbox
-
+  soundMuted = chkMuteSound.checked
+  console.log(soundMuted)
 } // end of setSoundOnOff
 
-function setDayNight(aEvent){ 
+export function setDayNight(aEvent){ 
   // Set day or night mode based on radio buttons
   // Day mode is when value is 1, night mode is 0, you can use this as a boolean, 1=true, 0=false
   // e.g., isDayMode = (aEvent.target.value == 1);
+  dayNight = aEvent.target.value
+  background.drawBackground()
+  background.drawGround()
+
   console.log(`Day/Night mode changed: ${aEvent.target.value}`);
 
 } // end of setDayNight

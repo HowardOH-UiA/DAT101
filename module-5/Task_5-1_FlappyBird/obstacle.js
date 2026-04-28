@@ -1,6 +1,6 @@
 "use strict";
 import { TSprite } from "libSprite";
-import { hero, EGameStatus, menu } from "./FlappyBird.mjs"
+import { hero, EGameStatus, menu, dayNight} from "./FlappyBird.mjs"
 
 const EasyFlyerGap = 150;
 const HardFlyerGap = 100;
@@ -30,9 +30,14 @@ export class TObstacle{
     }
 
     this.#spDown = new TSprite(aSpcvs, aSPI, x, topWithGap);
-    this.#spDown.index = 2;
     this.#spUp = new TSprite(aSpcvs, aSPI, x, top);
-    this.#spUp.index = 3;
+    if (dayNight == 1) {
+      this.#spDown.index = 2;
+      this.#spUp.index = 3;
+    } else if (dayNight == 0) {
+      this.#spDown.index = 0;
+      this.#spUp.index = 1;
+    }
   }
 
   // Properties
