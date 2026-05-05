@@ -186,6 +186,8 @@ class TSnakeBody extends TSnakePart {
 } // class TSnakeBody
 
 
+
+
 class TSnakeTail extends TSnakePart {
   constructor(aSpriteCanvas, aCol, aRow) {
     super(aSpriteCanvas, SheetData.Tail, aCol, aRow);
@@ -217,15 +219,18 @@ class TSnakeTail extends TSnakePart {
 
 
 export class TSnake {
+  #cloneBodyCell = null; //Creates the variable for storing the new body part.
   #isDead = false;
   #head = null;
   #body = null;
   #tail = null;
+  
   constructor(aSpriteCanvas, aBoardCell) {
     this.#head = new TSnakeHead(aSpriteCanvas, aBoardCell);
     let col = aBoardCell.col - 1;
     this.#body = [new TSnakeBody(aSpriteCanvas, new TBoardCell(col, aBoardCell.row))];
     col--;
+  
     this.#tail = new TSnakeTail(aSpriteCanvas, new TBoardCell(col, aBoardCell.row));
   } // constructor
 
@@ -242,17 +247,28 @@ export class TSnake {
     if (this.#isDead) {
       return false; // Snake is dead, do not continue
     }
+    
     if(this.#head.update()) {
       for (let i = 0; i < this.#body.length; i++) {
         this.#body[i].update();
       }
-      this.#tail.update();  
+      if(this.#cloneBodyCell){
+      this.#body.push(this.#cloneBodyCell); //Pushes the variable's new commands as a new body part.
+      this.#cloneBodyCell = null; //Resets for the next part.
+    } else {
+      this.#tail.update();
+    }
     }else if(!this.#isDead){
       this.#isDead = true;
       return false; // Collision detected, do not continue
     }
     return true; // No collision, continue
   }
+
+  grow() {
+    this.#cloneBodyCell = this.#body[this.#body.length - 1].clone(); //Adds the command for cloning in the value of the variable
+  }
+
 
   setDirection(aDirection) {
     this.#head.setDirection(aDirection);
