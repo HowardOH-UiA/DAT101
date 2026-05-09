@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------------------
 import { TSprite } from "libSprite";
 import { TPoint } from "lib2d";
-import { GameProps, SheetData, menu } from "./game.mjs";
+import { GameProps, EGameStatus, SheetData, menu } from "./game.mjs";
 import { TBoardCell, EBoardCellInfoType } from "./gameBoard.js";
-import {TMenu} from "./menu.js"
-
 
 //------------------------------------------------------------------------------------------
 //----------- Classes ---------------------------------------------------------------------
@@ -15,7 +13,10 @@ import {TMenu} from "./menu.js"
 
 export class TBait extends TSprite {
   #boardCell = null;
-  #z = 6;
+  //Current value of bait and timeout-value
+  #baitValue = null
+  #baitTimeout = null;
+  
   constructor(aSpriteCanvas) {
     const pos = new TPoint(0, 0);
     super(aSpriteCanvas, SheetData.Bait, pos.x, pos.y);
@@ -36,19 +37,28 @@ export class TBait extends TSprite {
     GameProps.gameBoard.getCell(this.#boardCell.row, this.#boardCell.col).infoType = EBoardCellInfoType.Bait
   } // End of update
 
-  Use(){
-     menu.Scorepluss(1, 1)
-    }
+  startBaitTimer() {//Starts the countdown of the value of the bait
+    clearTimeout(this.#baitTimeout);
+    this.#baitValue = 4; //Default value
+    menu.spBaitValueIncrementor(this.#baitValue) //Calls the menu method that showcases the current value, with the value as a parameter
+    console.log("Value of bait: " + this.#baitValue )
+    this.#baitTimeout = setTimeout(() => {this.updateBaitTimer(); }, 3000); //3 seconds per point, then calls the update method to lower the value.
+  } //startBaitTimer()
+  
+  updateBaitTimer() {//
+    if (GameProps.gameStatus == EGameStatus.Playing) {
+        if (this.#baitValue > 1) {//The bait is always at least 1 point.
+            this.#baitValue--;
+            menu.spBaitValueIncrementor(this.#baitValue) //Calls the menu method that showcases the current value, with the value as a parameter
+            console.log("Value of bait: " + this.#baitValue )
+            this.#baitTimeout = setTimeout(() => {this.updateBaitTimer(); }, 3000); //3 seconds per point
+        } 
+      }
+    } //updateBaitTimer()
 
-baitMaster(){
-  menu.baitValue(this.#z)
-  while (this.#z > 1) {
-  setTimeout(this.baitMaster.bind(this), 2000)
-  this.#z --
-  console.log(this.#z)
-}
-
-}
-
-
-}
+  pointCalc(){
+    GameProps.gameScore = this.#baitValue
+    menu.scoreIncrementor(GameProps.gameScore) //Picks up and sends the value of the bait as new point to be added to the score 
+    this.startBaitTimer()//Starts the bait timer
+  } //pointCalc()
+}//Class TBait

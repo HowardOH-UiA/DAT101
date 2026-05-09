@@ -13,7 +13,6 @@ import { TBoardCell, EBoardCellInfoType } from "./gameBoard.js";
 const ESpriteIndex = {UR: 0, LD: 0, RU: 1, DR: 1, DL: 2, LU: 2, RD: 3, UL: 3, RL: 4, UD: 5};
 export const EDirection = { Up: 0, Right: 1, Left: 2, Down: 3 };
 
-
 //-----------------------------------------------------------------------------------------
 //----------- Classes ---------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------
@@ -34,7 +33,6 @@ class TSnakePart extends TSprite {
   }
 
 } // class TSnakePart
-
 
 class TSnakeHead extends TSnakePart {
   constructor(aSpriteCanvas, aBoardCell) {
@@ -180,20 +178,20 @@ class TSnakeBody extends TSnakePart {
     newBody.direction = this.direction;
     return newBody;
   }
-
-  
-
 } // class TSnakeBody
 
 
 
-
-class TSnakeTail extends TSnakePart {
-  constructor(aSpriteCanvas, aCol, aRow) {
-    super(aSpriteCanvas, SheetData.Tail, aCol, aRow);
+class TSnakeTail extends TSnakePart { // comment, somthing wrong with updating og removing av halen som gjore at den ikke fjernet den når spille starter skal være fikset nå men legg inn en komment da jeg ikke vet om dette endret hans kode eller ikke
+  constructor(aSpriteCanvas, aBoardCell) {
+    super(aSpriteCanvas, SheetData.Tail, aBoardCell);
   }
 
-  update(){
+  update() {
+    //Had to add to add this, since the snake kept randomly dying. Figured out that the tail-hitbox from spawn stayed and killed the snake on touch.
+    const oldCell = GameProps.gameBoard.getCell(this.boardCell.row, this.boardCell.col); //Stores the location as a variable
+    oldCell.infoType = EBoardCellInfoType.Empty; //Makes the tails old location empty
+   
     switch (this.direction) {
       case EDirection.Up:
         this.boardCell.row--;
@@ -209,12 +207,10 @@ class TSnakeTail extends TSnakePart {
         break;
     }
     const boardCellInfo = GameProps.gameBoard.getCell(this.boardCell.row, this.boardCell.col);
-    boardCellInfo.infoType = EBoardCellInfoType.Empty; // Clear the cell, when the tail moves
     this.direction = boardCellInfo.direction;
     this.index = this.direction;
     super.update();
   }
-
 } // class TSnakeTail
 
 
@@ -247,14 +243,13 @@ export class TSnake {
     if (this.#isDead) {
       return false; // Snake is dead, do not continue
     }
-    
     if(this.#head.update()) {
       for (let i = 0; i < this.#body.length; i++) {
         this.#body[i].update();
       }
-      if(this.#cloneBodyCell){
-      this.#body.push(this.#cloneBodyCell); //Pushes the variable's new commands as a new body part.
-      this.#cloneBodyCell = null; //Resets for the next part.
+      if(this.#cloneBodyCell){ //Activates when grow() is called
+        this.#body.push(this.#cloneBodyCell); //Pushes the variable's command as a new body part.
+        this.#cloneBodyCell = null; //Resets for the next part.
     } else {
       this.#tail.update();
     }
@@ -265,10 +260,9 @@ export class TSnake {
     return true; // No collision, continue
   }
 
-  grow() {
-    this.#cloneBodyCell = this.#body[this.#body.length - 1].clone(); //Adds the command for cloning in the value of the variable
+  grow() { //When called, creates a help-variable that contains the command for cloning the last part before the tail.
+    this.#cloneBodyCell = this.#body[this.#body.length - 1].clone(); //
   }
-
 
   setDirection(aDirection) {
     this.#head.setDirection(aDirection);

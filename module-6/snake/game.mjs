@@ -18,9 +18,6 @@ let gameSpeed = 4; // Game speed multiplier;
 let hndUpdateGame = null;
 export const EGameStatus = { Idle: 0, Playing: 1, Pause: 2, GameOver: 3 };
 
-
-
-// prettier-ignore
 export const SheetData = {
   Head:     { x:   0, y:   0, width:  38, height:  38, count:  4 },
   Body:     { x:   0, y:  38, width:  38, height:  38, count:  6 },
@@ -49,24 +46,23 @@ export const menu = new TMenu(spcvs, SheetData)
 //------------------------------------------------------------------------------------------
 
 export function newGame() {
-  GameProps.gameStatus =  EGameStatus.Playing // comment
-  console.log(GameProps.gameStatus) // comment
+  GameProps.gameScore = 0 //Resets score
+  GameProps.gameStatus =  EGameStatus.Playing
+
   GameProps.gameBoard = new TGameBoard();
   GameProps.snake = new TSnake(spcvs, new TBoardCell(5, 5)); // Initialize snake with a starting position
   GameProps.bait = new TBait(spcvs); // Initialize bait with a starting position
   gameSpeed = 4; // Reset game speed
-    GameProps.bait.baitMaster()
+  GameProps.bait.pointCalc() //Is called to start the bait value countdown.
+  
 }
 
 export function baitIsEaten() {
-
-  console.log("Bait eaten!");
   GameProps.bait.update() //Creates a new bait somewhere else after eaten.
-  /* Logic to increase the snake size and score when bait is eaten */
-  GameProps.snake.grow()
+  GameProps.snake.grow() // Logic to increase the snake size and score when bait is eaten 
   increaseGameSpeed(); // Increase game speed
-  GameProps.bait.Use() //comment
-  GameProps.bait.baitMaster()
+  GameProps.bait.pointCalc() //Restart bait value countdown and sendt points to menu.
+
 }
 
 
@@ -80,21 +76,26 @@ function loadGame() {
 
   GameProps.gameStatus = EGameStatus.Idle; // change game status to Idle
 
-  /* Create the game menu here */ 
-
-   // Call this function from the menu to start a new game, remove this line when the menu is ready
- 
-
   requestAnimationFrame(drawGame);
   console.log("Game canvas is rendering!");
   hndUpdateGame = setInterval(updateGame, 1000 / gameSpeed); // Update game every 1000ms / gameSpeed
   console.log("Game canvas is updating!");
 }
 
+export function increaseGameSpeed() {
+    if (gameSpeed > 10) {// Speed is at max.
+      console.log("Speed is at MAX: " +  gameSpeed) 
+    } else { //Speed gets bumped up
+      gameSpeed += 0.25; 
+      console.log("Current speed: " + gameSpeed)
+    }
+    clearInterval(hndUpdateGame);
+    hndUpdateGame = setInterval(updateGame, 1000 / gameSpeed); // Update game every 1000ms / gameSpeed when after increased values
+}
+
 function drawGame() {
   // Clear the canvas
   spcvs.clearCanvas();
-
   switch (GameProps.gameStatus) {
     case EGameStatus.Playing:
     case EGameStatus.Pause:
@@ -102,30 +103,27 @@ function drawGame() {
       GameProps.snake.draw();
       break;
   }
+  menu.spPlayBtnAnimate() //Starts the play button animation
   // Request the next frame
   requestAnimationFrame(drawGame);
 
-  menu.draw();
+  menu.draw(); //Draws the menu
 }
 
 function updateGame() {
-  // Update game logic here
   switch (GameProps.gameStatus) {
     case EGameStatus.Playing:
-
       if (!GameProps.snake.update()) {
         GameProps.gameStatus = EGameStatus.GameOver;
         console.log("Game over!");
+  
+        menu.showEndScreen() //Calls for the game-over screen to be shown.
       }
       break;
   }
 
 }
 
-function increaseGameSpeed() {
-  /* Increase game speed logic here */
-  console.log("Increase game speed!");
-}
 
 
 
@@ -137,7 +135,6 @@ function onKeyDown(event) {
   switch (event.key) {
     case "ArrowUp":
       GameProps.snake.setDirection(EDirection.Up);
-       menu.countdown5()
       break;
     case "ArrowDown":
       GameProps.snake.setDirection(EDirection.Down);
@@ -150,9 +147,7 @@ function onKeyDown(event) {
       break;
     case " ":
       console.log("Space key pressed!");
-      /* Pause the game logic here */
       menu.spPauseBtnClick()
-      
       break;
     default:
       console.log(`Key pressed: "${event.key}"`);
